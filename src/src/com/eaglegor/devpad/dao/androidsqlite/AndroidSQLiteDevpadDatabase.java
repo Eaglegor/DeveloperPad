@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
 
 public class AndroidSQLiteDevpadDatabase extends SQLiteOpenHelper {
 
@@ -19,7 +18,7 @@ public class AndroidSQLiteDevpadDatabase extends SQLiteOpenHelper {
 		createTables(db);
 		
 		fillFactoryData(db);
-		
+	
 	}
 
 	private void createTables(SQLiteDatabase db) {
@@ -183,11 +182,22 @@ public class AndroidSQLiteDevpadDatabase extends SQLiteOpenHelper {
 		db.execSQL("CREATE INDEX `Tasks_Task_Priority_idx` ON `Tasks` (`priority` ASC)");
 	}
 
+	private void fillDemoData(SQLiteDatabase db)
+	{
+		db.execSQL("INSERT INTO `Tasks` (`_id`, `title`, `type`, `status`, `parent`, `deadline`, `priority`, `assignee`, `estimate`, `spent_time`) VALUES (NULL, 'Main task', 1, 1, NULL, NULL, 1, NULL, NULL, NULL)");
+		db.execSQL("INSERT INTO `Tasks` (`_id`, `title`, `type`, `status`, `parent`, `deadline`, `priority`, `assignee`, `estimate`, `spent_time`) VALUES (NULL, 'Subtask', 0, 1, 0, NULL, 1, 'Someone', 36000000, 18000000)");
+		db.execSQL("INSERT INTO `ChangeLog` (`_id`, `task`, `related_resource`, `text`, `creation_date`) VALUES (NULL, 0, NULL, 'Task created', '1398544268632')");
+		db.execSQL("INSERT INTO `ChangeLog` (`_id`, `task`, `related_resource`, `text`, `creation_date`) VALUES (NULL, 1, NULL, 'Task created', '1398544268632')");
+	}
+	
 	private void fillFactoryData(SQLiteDatabase db) {
 		fillTableResourceTypes(db);
 		fillTableTaskStatuses(db);
 		fillTableTaskPriorities(db);
 		fillTableTaskTypes(db);
+		
+		fillDemoData(db); // TODO - kill this method in production version
+		
 	}
 
 	private void fillTableTaskTypes(SQLiteDatabase db) {
@@ -209,18 +219,21 @@ public class AndroidSQLiteDevpadDatabase extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put("title", "High");
 		values.put("color_code", "#FF0000");
+		values.put("value", 0);
 		db.insert("TaskPriorities", null, values);
 		
 		// NORMAL
 		values.clear();
 		values.put("title", "Normal");
 		values.put("color_code", "#0000FF");
+		values.put("value", 1);
 		db.insert("TaskPriorities", null, values);
 		
 		// LOW
 		values.clear();
 		values.put("title", "Low");
 		values.put("color_code", "#00FF00");
+		values.put("value", 2);
 		db.insert("TaskPriorities", null, values);
 	}
 
