@@ -1,5 +1,6 @@
 package com.eaglegor.devpad.concepts;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,8 +15,8 @@ public final class Task {
 	private Date deadline = null;
 	private TaskPriority priority;
 	private String assignee = null;
-	private long estimate = 0;
-	private long spentTime = 0;
+	private Long estimate = null;
+	private Long spentTime = null;
 	private List<ResourceHandle> resources = null;
 	private List<ChangeLogEntry> changeLog = null;
 
@@ -118,19 +119,45 @@ public final class Task {
 	public List<ChangeLogEntry> getChangeLog() {
 		return changeLog;
 	}
+
+	public void setChildren(List<Task> children) {
+		this.children = children;
+	}
+
+	public void setResources(List<ResourceHandle> resources) {
+		this.resources = resources;
+	}
+
+	public void setChangeLog(List<ChangeLogEntry> changeLog) {
+		this.changeLog = changeLog;
+	}
+
 	
 	public void appendChild(Task child)
 	{
+		if(children == null)
+		{
+			children = new ArrayList<Task>();
+		}
 		children.add(child);
+		child.setParent(this);
 	}
 	
 	public void appendResource(ResourceHandle resource)
 	{
+		if(resources == null)
+		{
+			resources = new ArrayList<ResourceHandle>();
+		}
 		resources.add(resource);
 	}
 	
 	public void appendChangeLogEntry(ChangeLogEntry changeLogEntry)
 	{
+		if(changeLog == null)
+		{
+			changeLog = new ArrayList<ChangeLogEntry>();
+		}
 		changeLog.add(changeLogEntry);
 	}
 	

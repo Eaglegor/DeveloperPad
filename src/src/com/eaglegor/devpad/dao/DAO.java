@@ -8,5 +8,6 @@ public interface DAO<T> {
 	public void refresh(T object);
 	public T load(int id);
 	public List<T> loadAll();
+	public void remove(int id);
 	
 }

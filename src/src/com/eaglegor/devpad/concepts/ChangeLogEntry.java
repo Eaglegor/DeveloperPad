@@ -9,6 +9,22 @@ public final class ChangeLogEntry {
 	private String text;
 	private Date creationDate;
 	
+	public int getId() {
+		return id;
+	}
+
+	public ResourceHandle getRelatedResource() {
+		return relatedResource;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
 	public ChangeLogEntry(int id, ResourceHandle relatedResource, String text, Date creationDate) {
 		this.id = id;
 		this.relatedResource = relatedResource;

@@ -30,7 +30,7 @@ public class AndroidSqliteDAOManager implements DAOManager {
 	@Override
 	public TaskDAO getTaskDAO() {
 		if (taskDAO == null) {
-			taskDAO = new AndroidSqliteTaskDAO(database);
+			taskDAO = new AndroidSqliteTaskDAO(database, this);
 		}
 		return taskDAO;
 	}
@@ -38,7 +38,7 @@ public class AndroidSqliteDAOManager implements DAOManager {
 	@Override
 	public TaskPriorityDAO getTaskPriorityDAO() {
 		if (taskPriorityDAO == null) {
-			taskPriorityDAO = new AndroidSqliteTaskPriorityDAO(database);
+			taskPriorityDAO = new AndroidSqliteTaskPriorityDAO(database, this);
 		}
 		return taskPriorityDAO;
 	}
@@ -46,7 +46,7 @@ public class AndroidSqliteDAOManager implements DAOManager {
 	@Override
 	public TaskTypeDAO getTaskTypeDAO() {
 		if (taskTypeDAO == null) {
-			taskTypeDAO = new AndroidSqliteTaskTypeDAO(database);
+			taskTypeDAO = new AndroidSqliteTaskTypeDAO(database, this);
 		}
 		return taskTypeDAO;
 	}
@@ -54,7 +54,7 @@ public class AndroidSqliteDAOManager implements DAOManager {
 	@Override
 	public TaskStatusDAO getTaskStatusDAO() {
 		if (taskStatusDAO == null) {
-			taskStatusDAO = new AndroidSqliteTaskStatusDAO(database);
+			taskStatusDAO = new AndroidSqliteTaskStatusDAO(database, this);
 		}
 		return taskStatusDAO;
 	}
@@ -62,7 +62,7 @@ public class AndroidSqliteDAOManager implements DAOManager {
 	@Override
 	public ResourceTypeDAO getResourceTypeDAO() {
 		if (resourceTypeDAO == null) {
-			resourceTypeDAO = new AndroidSqliteResourceTypeDAO(database);
+			resourceTypeDAO = new AndroidSqliteResourceTypeDAO(database, this);
 		}
 		return resourceTypeDAO;
 	}
@@ -70,7 +70,7 @@ public class AndroidSqliteDAOManager implements DAOManager {
 	@Override
 	public ChangeLogEntryDAO getChangeLogEntryDAO() {
 		if (changeLogEntryDAO == null) {
-			changeLogEntryDAO = new AndroidSqliteChangeLogEntryDAO(database);
+			changeLogEntryDAO = new AndroidSqliteChangeLogEntryDAO(database, this);
 		}
 		return changeLogEntryDAO;
 	}
@@ -78,7 +78,7 @@ public class AndroidSqliteDAOManager implements DAOManager {
 	@Override
 	public ResourceHandleDAO getResourceHandleDAO() {
 		if (resourceHandleDAO == null) {
-			resourceHandleDAO = new AndroidSqliteResourceHandleDAO(database);
+			resourceHandleDAO = new AndroidSqliteResourceHandleDAO(database, this);
 		}
 		return resourceHandleDAO;
 	}

@@ -1,13 +1,12 @@
 package com.eaglegor.devpad.concepts;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class ResourceManager {
 
+	@SuppressWarnings("serial")
 	public static class ResourceNotFoundException extends IOException {};
 	
-	private HashMap<ResourceHandle, Resource> cache = new HashMap<ResourceHandle, Resource>();
 	private static ResourceManager instance = null;
 	
 	private ResourceManager()
