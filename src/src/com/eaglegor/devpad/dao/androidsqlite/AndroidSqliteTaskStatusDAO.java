@@ -3,6 +3,7 @@ package com.eaglegor.devpad.dao.androidsqlite;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -22,20 +23,45 @@ public class AndroidSqliteTaskStatusDAO extends AndroidSqliteDAO<TaskStatus> imp
 
 	@Override
 	public void save(TaskStatus object) {
-		// TODO Auto-generated method stub
-
+		
+		ContentValues values = new ContentValues();
+		values.put("title", object.getTitle());
+		values.put("color_code", object.getColorCode());
+		
+		if(object.getId() > 0)
+		{
+			database.update(TABLE_NAME, values, "_id = ?", new String[]{Integer.toString(object.getId())});
+		}
+		else
+		{
+			database.insert(TABLE_NAME, null, values);
+		}
+		
 	}
 
 	@Override
 	public void refresh(TaskStatus object) {
-		// TODO Auto-generated method stub
+
+		Cursor cursor = database.query(TABLE_NAME, DATA_COLUMNS, "_id = ?", new String[]{Integer.toString(object.getId())}, null, null, DEFAULT_ORDER_BY_COLUMN, null);
+
+		if(cursor.moveToNext()) {
+			object.setTitle(cursor.getString(1));
+			object.setColorCode(cursor.getString(2));
+		}
 
 	}
 
 	@Override
 	public TaskStatus load(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		TaskStatus taskStatus = null;
+
+		Cursor cursor = database.query(TABLE_NAME, DATA_COLUMNS, "_id = ?", new String[]{Integer.toString(id)}, null, null, DEFAULT_ORDER_BY_COLUMN, null);
+
+		if(cursor.moveToNext()) {
+			taskStatus = new TaskStatus(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
+		}
+
+		return taskStatus;
 	}
 
 	@Override
@@ -54,8 +80,7 @@ public class AndroidSqliteTaskStatusDAO extends AndroidSqliteDAO<TaskStatus> imp
 
 	@Override
 	public void remove(int id) {
-		// TODO Auto-generated method stub
-		
+		database.delete(TABLE_NAME, "_id = ?", new String[]{Integer.toString(id)});	
 	}
 
 }

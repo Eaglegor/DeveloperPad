@@ -30,6 +30,14 @@ public final class ResourceHandle {
 		return id;
 	}
 
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	public void setType(ResourceType type) {
+		this.type = type;
+	}
+
 	public String getUri() {
 		return uri;
 	}

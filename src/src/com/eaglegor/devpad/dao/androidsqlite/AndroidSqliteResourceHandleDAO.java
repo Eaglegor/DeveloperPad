@@ -3,6 +3,7 @@ package com.eaglegor.devpad.dao.androidsqlite;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -24,27 +25,78 @@ public class AndroidSqliteResourceHandleDAO extends AndroidSqliteDAO<ResourceHan
 
 	@Override
 	public void save(ResourceHandle object) {
-		// TODO Auto-generated method stub
+
+		ContentValues values = new ContentValues();
+		values.put("title", object.getTitle());
+		values.put("uri", object.getUri());
+		values.put("type", object.getType().getId());
+		
+		if(object.getId() > 0)
+		{
+			database.update(TABLE_NAME, values, "_id = ?", new String[]{Integer.toString(object.getId())});
+		}
+		else
+		{
+			database.insert(TABLE_NAME, null, values);
+		}
 
 	}
 
 	@Override
 	public void refresh(ResourceHandle object) {
-		// TODO Auto-generated method stub
+
+		Cursor cursor = database.query(TABLE_NAME, DATA_COLUMNS, "_id = ?", new String[]{Integer.toString(object.getId())}, null, null, DEFAULT_ORDER_BY_COLUMN, null);
+
+		if(cursor.moveToNext()) {
+			object.setTitle(cursor.getString(1));
+			object.setUri(cursor.getString(2));
+			ResourceType resType = daoManager.getResourceTypeDAO().load(cursor.getInt(3));
+			object.setType(resType);
+		}
 
 	}
 
 	@Override
 	public ResourceHandle load(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		ResourceHandle resourceHandle = null;
+
+		Cursor cursor = database.query(TABLE_NAME, DATA_COLUMNS, "_id = ?", new String[]{Integer.toString(id)}, null, null, DEFAULT_ORDER_BY_COLUMN, null);
+		
+		if(cursor.moveToNext()) {
+			ResourceType resType = daoManager.getResourceTypeDAO().load(cursor.getInt(3));
+			
+			resourceHandle = new ResourceHandle(cursor.getInt(0), cursor.getString(1), cursor.getString(2), resType);
+		}
+		
+		return resourceHandle;
+	}
+
+	public List<ResourceHandle> internalLoad(String whereClause, String... params)
+	{
+		List<ResourceHandle> changeLogEntries = new ArrayList<ResourceHandle>();
+		
+		Cursor cursor = database.query(TABLE_NAME, DATA_COLUMNS, whereClause, params, null, null, DEFAULT_ORDER_BY_COLUMN, null);
+		while(cursor.moveToNext())
+		{
+			ResourceType resType = daoManager.getResourceTypeDAO().load(cursor.getInt(3));
+		
+			ResourceHandle changeLogEntry = new ResourceHandle(cursor.getInt(0), cursor.getString(1), cursor.getString(2), resType);
+			changeLogEntries.add(changeLogEntry);
+		}
+		
+		return changeLogEntries;
+	}
+	
+	@Override
+	public List<ResourceHandle> loadAll() {
+		return internalLoad(null, (String[])null);
 	}
 
 	@Override
-	public List<ResourceHandle> loadAll() {
+	public List<ResourceHandle> findAllForTask(Task task) {
 		List<ResourceHandle> changeLogEntries = new ArrayList<ResourceHandle>();
 		
-		Cursor cursor = database.query(TABLE_NAME, DATA_COLUMNS, null, null, null, null, DEFAULT_ORDER_BY_COLUMN, null);
+		Cursor cursor = database.rawQuery("SELECT (_id, title, uri, type) FROM ResourceHandles a LEFT JOIN TaskResources b ON a._id = b.resource WHERE b.task = ?", new String[]{Integer.toString(task.getId())});
 		while(cursor.moveToNext())
 		{
 			ResourceType resType = daoManager.getResourceTypeDAO().load(cursor.getInt(3));
@@ -57,15 +109,8 @@ public class AndroidSqliteResourceHandleDAO extends AndroidSqliteDAO<ResourceHan
 	}
 
 	@Override
-	public List<ResourceHandle> findAllForTask(Task task) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void remove(int id) {
-		// TODO Auto-generated method stub
-		
+		database.delete(TABLE_NAME, "_id = ?", new String[]{Integer.toString(id)});
 	}
 
 }

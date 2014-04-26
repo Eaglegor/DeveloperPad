@@ -25,6 +25,18 @@ public final class ChangeLogEntry {
 		return creationDate;
 	}
 
+	public void setRelatedResource(ResourceHandle relatedResource) {
+		this.relatedResource = relatedResource;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
 	public ChangeLogEntry(int id, ResourceHandle relatedResource, String text, Date creationDate) {
 		this.id = id;
 		this.relatedResource = relatedResource;

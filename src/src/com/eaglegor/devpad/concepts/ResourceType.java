@@ -6,6 +6,14 @@ public final class ResourceType {
 	private String classname;
 	private String title;
 	
+	public void setClassname(String classname) {
+		this.classname = classname;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public ResourceType(int id, String title, String classname)
 	{
 		this.id = id;
