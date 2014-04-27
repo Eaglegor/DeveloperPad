@@ -17,6 +17,10 @@ public final class TaskType {
 		this.title = title;
 	}
 
+	public void setId(int id) {
+		if(this.id < 0) this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}

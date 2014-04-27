@@ -13,7 +13,7 @@ import com.eaglegor.devpad.dao.TaskPriorityDAO;
 
 public class AndroidSqliteTaskPriorityDAO extends AndroidSqliteDAO<TaskPriority> implements TaskPriorityDAO {
 
-	final private String TABLE_NAME = "Tasks";
+	final private String TABLE_NAME = "TaskPriorities";
 	final private String[] DATA_COLUMNS = {"_id", "title", "value", "color_code"};
 	final private String DEFAULT_ORDER_BY_COLUMN = "value";
 
@@ -35,7 +35,7 @@ public class AndroidSqliteTaskPriorityDAO extends AndroidSqliteDAO<TaskPriority>
 		}
 		else
 		{
-			database.insert(TABLE_NAME, null, values);
+			object.setId((int) database.insert(TABLE_NAME, null, values));
 		}
 		
 	}

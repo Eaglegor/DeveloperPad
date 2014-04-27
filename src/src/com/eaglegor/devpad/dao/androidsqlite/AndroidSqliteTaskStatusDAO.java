@@ -13,7 +13,7 @@ import com.eaglegor.devpad.dao.TaskStatusDAO;
 
 public class AndroidSqliteTaskStatusDAO extends AndroidSqliteDAO<TaskStatus> implements TaskStatusDAO {
 
-	final private String TABLE_NAME = "TaskTypes";
+	final private String TABLE_NAME = "TaskStatuses";
 	final private String[] DATA_COLUMNS = {"_id", "title", "color_code"};
 	final private String DEFAULT_ORDER_BY_COLUMN = "_id";
 	
@@ -34,7 +34,7 @@ public class AndroidSqliteTaskStatusDAO extends AndroidSqliteDAO<TaskStatus> imp
 		}
 		else
 		{
-			database.insert(TABLE_NAME, null, values);
+			object.setId((int) database.insert(TABLE_NAME, null, values));
 		}
 		
 	}

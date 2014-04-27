@@ -20,6 +20,10 @@ public final class TaskPriority implements Comparable<TaskPriority> {
 		this.colorCode = colorCode;
 	}
 
+	public void setId(int id) {
+		if(this.id < 0) this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -37,7 +37,7 @@ public class AndroidSqliteResourceHandleDAO extends AndroidSqliteDAO<ResourceHan
 		}
 		else
 		{
-			database.insert(TABLE_NAME, null, values);
+			object.setId((int) database.insert(TABLE_NAME, null, values));
 		}
 
 	}
@@ -96,7 +96,7 @@ public class AndroidSqliteResourceHandleDAO extends AndroidSqliteDAO<ResourceHan
 	public List<ResourceHandle> findAllForTask(Task task) {
 		List<ResourceHandle> changeLogEntries = new ArrayList<ResourceHandle>();
 		
-		Cursor cursor = database.rawQuery("SELECT (_id, title, uri, type) FROM ResourceHandles a LEFT JOIN TaskResources b ON a._id = b.resource WHERE b.task = ?", new String[]{Integer.toString(task.getId())});
+		Cursor cursor = database.rawQuery("SELECT rh._id, title, uri, type FROM ResourceHandles rh LEFT JOIN TaskResources tr ON rh._id = tr.resource WHERE tr.task = ?", new String[]{Integer.toString(task.getId())});
 		while(cursor.moveToNext())
 		{
 			ResourceType resType = daoManager.getResourceTypeDAO().load(cursor.getInt(3));

@@ -5,6 +5,7 @@ import com.eaglegor.devpad.dao.androidsqlite.AndroidSQLiteDevpadDatabase;
 import com.eaglegor.devpad.dao.androidsqlite.AndroidSqliteDAOManager;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteDatabase;
 
 public class DevPadApplication extends Application {
 
@@ -15,7 +16,9 @@ public class DevPadApplication extends Application {
 		super.onCreate();
 		
 		AndroidSQLiteDevpadDatabase dbHelper = new AndroidSQLiteDevpadDatabase(getApplicationContext(), "DevPadMainDatabase", null, 1);
-		daoManager = new AndroidSqliteDAOManager(dbHelper.getWritableDatabase());
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		daoManager = new AndroidSqliteDAOManager(db);
+		dbHelper.fillDemoData(db, daoManager);
 	}
 
 	public DAOManager getDAOManager() {

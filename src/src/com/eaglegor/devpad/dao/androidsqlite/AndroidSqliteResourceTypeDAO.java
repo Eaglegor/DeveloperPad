@@ -34,7 +34,7 @@ public class AndroidSqliteResourceTypeDAO extends AndroidSqliteDAO<ResourceType>
 		}
 		else
 		{
-			database.insert(TABLE_NAME, null, values);
+			object.setId((int) database.insert(TABLE_NAME, null, values));
 		}
 
 	}

@@ -28,6 +28,7 @@ public class AndroidSqliteChangeLogEntryDAO extends AndroidSqliteDAO<ChangeLogEn
 	public void save(ChangeLogEntry object) {
 
 		ContentValues values = new ContentValues();
+		values.put("task", object.getRelatedTask().getId());
 		values.put("text", object.getText());
 		values.put("creation_date", object.getCreationDate().getTime());
 		values.put("related_resource", object.getRelatedResource() == null ? null : object.getRelatedResource().getId());
@@ -38,7 +39,7 @@ public class AndroidSqliteChangeLogEntryDAO extends AndroidSqliteDAO<ChangeLogEn
 		}
 		else
 		{
-			database.insert(TABLE_NAME, null, values);
+			object.setId((int) database.insert(TABLE_NAME, null, values));
 		}
 		
 	}
@@ -67,7 +68,7 @@ public class AndroidSqliteChangeLogEntryDAO extends AndroidSqliteDAO<ChangeLogEn
 		if(cursor.moveToNext()) {
 			ResourceHandle resHandle = daoManager.getResourceHandleDAO().load(cursor.getInt(3));
 			
-			changeLogEntry = new ChangeLogEntry(cursor.getInt(0), resHandle, cursor.getString(1), new Date(cursor.getLong(2)));	
+			changeLogEntry = new ChangeLogEntry(cursor.getInt(0), resHandle, cursor.getString(1), new Date(cursor.getLong(2)), null);	
 		}
 		
 		return changeLogEntry;
@@ -82,7 +83,7 @@ public class AndroidSqliteChangeLogEntryDAO extends AndroidSqliteDAO<ChangeLogEn
 		{
 			ResourceHandle resHandle = daoManager.getResourceHandleDAO().load(cursor.getInt(3));
 		
-			ChangeLogEntry changeLogEntry = new ChangeLogEntry(cursor.getInt(0), resHandle, cursor.getString(1), new Date(cursor.getLong(2)));
+			ChangeLogEntry changeLogEntry = new ChangeLogEntry(cursor.getInt(0), resHandle, cursor.getString(1), new Date(cursor.getLong(2)), null);
 			changeLogEntries.add(changeLogEntry);
 		}
 		
@@ -96,7 +97,12 @@ public class AndroidSqliteChangeLogEntryDAO extends AndroidSqliteDAO<ChangeLogEn
 
 	@Override
 	public List<ChangeLogEntry> findAllForTask(Task task) {
-		return internalLoad("task = ?", Integer.toString(task.getId()));
+		List<ChangeLogEntry> result = internalLoad("task = ?", Integer.toString(task.getId()));
+		for(ChangeLogEntry entry : result)
+		{
+			entry.setRelatedTask(task);
+		}
+		return result;
 	}
 
 	@Override

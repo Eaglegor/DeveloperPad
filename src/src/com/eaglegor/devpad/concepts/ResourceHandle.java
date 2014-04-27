@@ -7,6 +7,10 @@ public final class ResourceHandle {
 	private String uri;
 	private ResourceType type;
 	
+	public void setId(int id) {
+		if (this.id < 0 ) this.id = id;
+	}
+
 	public ResourceHandle(String title, String uri, ResourceType type) {
 		this(-1, title, uri, type);
 	}

@@ -8,9 +8,14 @@ public final class ChangeLogEntry {
 	private ResourceHandle relatedResource;
 	private String text;
 	private Date creationDate;
+	private Task relatedTask;
 	
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		if (this.id < 0) this.id = id;
 	}
 
 	public ResourceHandle getRelatedResource() {
@@ -37,15 +42,30 @@ public final class ChangeLogEntry {
 		this.creationDate = creationDate;
 	}
 
-	public ChangeLogEntry(int id, ResourceHandle relatedResource, String text, Date creationDate) {
+	
+	
+	public ChangeLogEntry(int id, ResourceHandle relatedResource, String text, Date creationDate, Task relatedTask) {
 		this.id = id;
 		this.relatedResource = relatedResource;
 		this.text = text;
 		this.creationDate = creationDate;
+		this.relatedTask = relatedTask;
+	}
+
+	public ChangeLogEntry(ResourceHandle relatedResource, String text, Date creationDate, Task relatedTask) {
+		this(-1, relatedResource, text, creationDate, relatedTask);
 	}
 
 	public ChangeLogEntry(ResourceHandle relatedResource, String text, Date creationDate) {
-		this(-1, relatedResource, text, creationDate);
+		this(-1, relatedResource, text, creationDate, null);
+	}
+	
+	public Task getRelatedTask() {
+		return relatedTask;
+	}
+
+	public void setRelatedTask(Task relatedTask) {
+		this.relatedTask = relatedTask;
 	}
 	
 }

@@ -32,6 +32,10 @@ public final class Task {
 		this.priority = priority;
 	}
 
+	public void setId(int id) {
+		if(this.id < 0) this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -88,19 +92,19 @@ public final class Task {
 		this.assignee = assignee;
 	}
 
-	public long getEstimate() {
+	public Long getEstimate() {
 		return estimate;
 	}
 
-	public void setEstimate(long estimate) {
+	public void setEstimate(Long estimate) {
 		this.estimate = estimate;
 	}
 
-	public long getSpentTime() {
+	public Long getSpentTime() {
 		return spentTime;
 	}
 
-	public void setSpentTime(long spentTime) {
+	public void setSpentTime(Long spentTime) {
 		this.spentTime = spentTime;
 	}
 

@@ -51,7 +51,7 @@ public class AndroidSqliteTaskDAO extends AndroidSqliteDAO<Task> implements Task
 		}
 		else
 		{
-			database.insert(TABLE_NAME, null, values);
+			object.setId((int) database.insert(TABLE_NAME, null, values));
 		}
 		
 	}
@@ -120,33 +120,33 @@ public class AndroidSqliteTaskDAO extends AndroidSqliteDAO<Task> implements Task
 			Task task = new Task(cursor.getInt(0), cursor.getString(1), type, status, priority );
 			
 			//deadline
-			if(cursor.isNull(6))
+			if(!cursor.isNull(6))
 			{
 				task.setDeadline(new Date(cursor.getInt(6)));
 			}
 		
 			//assignee
-			if(cursor.isNull(7))
+			if(!cursor.isNull(7))
 			{
 				task.setAssignee(cursor.getString(7));
 			}
 			
 			//estimate
-			if(cursor.isNull(8))
+			if(!cursor.isNull(8))
 			{
-				task.setEstimate(cursor.getInt(8));
+				task.setEstimate(cursor.getLong(8));
 			}
 			
 			//spentTime
-			if(cursor.isNull(9))
+			if(!cursor.isNull(9))
 			{
-				task.setSpentTime(cursor.getInt(9));
+				task.setSpentTime(cursor.getLong(9));
 			}
 			
 			task.setResources(daoManager.getResourceHandleDAO().findAllForTask(task));
 			task.setChangeLog(daoManager.getChangeLogEntryDAO().findAllForTask(task));
 			
-			if(cursor.isNull(5))
+			if(!cursor.isNull(5))
 			{
 				
 				int parentId = cursor.getInt(5);

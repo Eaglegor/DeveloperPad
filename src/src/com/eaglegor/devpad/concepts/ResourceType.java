@@ -10,10 +10,19 @@ public final class ResourceType {
 		this.classname = classname;
 	}
 
+	public void setId(int id) {
+		if(this.id < 0) this.id = id;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	public ResourceType(String title, String classname)
+	{
+		this(-1, title, classname);
+	}
+	
 	public ResourceType(int id, String title, String classname)
 	{
 		this.id = id;

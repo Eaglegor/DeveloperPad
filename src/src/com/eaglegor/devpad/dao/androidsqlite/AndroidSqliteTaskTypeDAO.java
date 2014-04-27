@@ -34,7 +34,7 @@ public class AndroidSqliteTaskTypeDAO extends AndroidSqliteDAO<TaskType> impleme
 		}
 		else
 		{
-			database.insert(TABLE_NAME, null, values);
+			object.setId((int) database.insert(TABLE_NAME, null, values));
 		}
 		
 	}
