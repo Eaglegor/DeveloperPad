@@ -15,8 +15,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.eaglegor.developerpad.TestActivity"
-            android:label="@string/title_activity_test" >
+            android:name="com.eaglegor.devpad.view.activities.TaskListActivity"
+            android:label="@string/title_activity_task_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
