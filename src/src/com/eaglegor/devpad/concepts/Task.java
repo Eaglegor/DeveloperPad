@@ -8,6 +8,7 @@ public final class Task {
 
 	private int id;
 	private String title;
+	private String description;
 	private TaskType type;
 	private TaskStatus status;
 	private List<Task> children = null;
@@ -19,7 +20,7 @@ public final class Task {
 	private Long spentTime = null;
 	private List<ResourceHandle> resources = null;
 	private List<ChangeLogEntry> changeLog = null;
-
+	
 	public Task(String title, TaskType type, TaskStatus status,	TaskPriority priority) {
 		this(-1, title, type, status, priority);
 	}
@@ -163,6 +164,14 @@ public final class Task {
 			changeLog = new ArrayList<ChangeLogEntry>();
 		}
 		changeLog.add(changeLogEntry);
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

@@ -19,7 +19,7 @@ import com.eaglegor.devpad.dao.TaskDAO;
 public class AndroidSqliteTaskDAO extends AndroidSqliteDAO<Task> implements TaskDAO {
 
 	final private String TABLE_NAME = "Tasks";
-	final private String[] DATA_COLUMNS = {"_id", "title", "type", "status", "priority", "parent", "deadline", "assignee", "estimate", "spent_time"};
+	final private String[] DATA_COLUMNS = {"_id", "title", "type", "status", "priority", "parent", "deadline", "assignee", "estimate", "spent_time", "description"};
 	final private String DEFAULT_ORDER_BY_COLUMN = "_id";
 
 	private List<Task> hierarchicalTasksCache;
@@ -44,6 +44,7 @@ public class AndroidSqliteTaskDAO extends AndroidSqliteDAO<Task> implements Task
 		values.put("assignee", object.getAssignee());
 		values.put("estimate", object.getEstimate());
 		values.put("spent_time", object.getSpentTime());
+		values.put("description", object.getDescription());
 		
 		if(object.getId() > 0)
 		{
@@ -73,6 +74,7 @@ public class AndroidSqliteTaskDAO extends AndroidSqliteDAO<Task> implements Task
 		object.setSpentTime(referenceTask.getSpentTime());
 		object.setStatus(referenceTask.getStatus());
 		object.setType(referenceTask.getType());
+		object.setDescription(referenceTask.getDescription());
 		
 	}
 
@@ -141,6 +143,12 @@ public class AndroidSqliteTaskDAO extends AndroidSqliteDAO<Task> implements Task
 			if(!cursor.isNull(9))
 			{
 				task.setSpentTime(cursor.getLong(9));
+			}
+			
+			//spentTime
+			if(!cursor.isNull(10))
+			{
+				task.setDescription(cursor.getString(10));
 			}
 			
 			task.setResources(daoManager.getResourceHandleDAO().findAllForTask(task));
